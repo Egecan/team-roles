@@ -2,7 +2,7 @@ Approach:
 
 - I first spent some time to analyze the responses from the endpoints provided. After going over the task requirements throughly, I thought about the data structure that I would need. Once I decided on the data structure, that made things clearer.
 - For the data structure, there were many options of course, but I decided to go ahead with the minimum required. So I went ahead with
-#  teamMemberRoleData: {teamId: {userId: role}}
+  teamMemberRoleData: {teamId: {userId: role}}
   as this will be enough for me to keep exactly what I need.
 - With the implementation, I tried to keep the logic as simple as possible while filling as many requirements from extra points as possible
 - I found out that I didn't have to use Users API to handle the requirements in this task. Thus I didn't call that API.
@@ -12,7 +12,7 @@ Approach:
 Request to Teams API team devs:
 
 - Please provide the ability to return all teamIds alongside with their members in 1 call, like the /teams/ endpoint. Just a response in this format would be perfect:
-#  [team1Id: [teamMemberId1, teamMemberId2, ...], team2Id: [teamMemberId1, teamMemberId2, ...], ...]
+  [team1Id: [teamMemberId1, teamMemberId2, ...], team2Id: [teamMemberId1, teamMemberId2, ...], ...]
 
 
 Architectural Decisions:
