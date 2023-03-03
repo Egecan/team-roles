@@ -1,0 +1,7 @@
+version: '3'
+services:
+  teams:
+    image: teams
+    build: .
+    ports:
+      - "8080:8080"
