@@ -16,5 +16,4 @@ class TeamService(private val restTemplate: RestTemplate) {
     fun getAllTeams(): Array<TeamsResponse>? {
         return restTemplate.getForObject(GET_TEAMS_ENDPOINT, Array<TeamsResponse>::class.java)
     }
-
 }

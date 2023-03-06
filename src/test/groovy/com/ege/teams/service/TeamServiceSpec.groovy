@@ -5,11 +5,13 @@ import com.ege.teams.model.TeamDetailsResponse
 import com.ege.teams.model.TeamsResponse
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
+import spock.lang.Subject
 
 
 class TeamServiceSpec extends Specification {
     RestTemplate restTemplate = Mock(RestTemplate)
 
+    @Subject
     TeamService teamService = new TeamService(restTemplate)
 
     def "getTeam should return team details for given team id"() {

@@ -17,5 +17,5 @@ object Constants {
     const val USER_NOT_FOUND = "User not found in team"
     const val USER_NOT_FOUND_ANYWHERE = "User not found in team"
     const val DATA_NOT_FOUND = "No teams data found. Please try reloading data"
-
+    const val GENERIC_ERROR_MESSAGE = "Unable to process request"
 }

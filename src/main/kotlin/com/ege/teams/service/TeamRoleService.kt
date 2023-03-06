@@ -1,5 +1,6 @@
 package com.ege.teams.service
 
+import com.ege.teams.common.Constants
 import com.ege.teams.common.Constants.DEFAULT_ROLE
 import com.ege.teams.common.Constants.PO_ROLE
 import com.ege.teams.common.Constants.TESTER_ROLE
@@ -22,14 +23,23 @@ class TeamRoleService {
     }
 
     fun assignRoleToMembership(teamId: String, userId: String, roleName: String) {
+        validateDataExists()
+        validateRoleExists(roleName)
+        validateTeamExists(teamId)
+        validateUserInTeam(teamId, userId)
         teamMemberRoleData[teamId]?.set(userId, roleName)
     }
 
     fun getRoleForMembership(teamId: String, userId: String): String? {
+        validateDataExists()
+        validateTeamExists(teamId)
+        validateUserInTeam(teamId, userId)
         return teamMemberRoleData[teamId]?.get(userId)
     }
 
     fun getMembershipsForRole(roleName: String): List<TeamMembership> {
+        validateDataExists()
+        validateRoleExists(roleName)
         val memberships = mutableListOf<TeamMembership>()
         for ((teamId, teamMembers) in teamMemberRoleData) {
             for ((userId, role) in teamMembers) {
@@ -49,30 +59,20 @@ class TeamRoleService {
         return roles.toSet()
     }
 
-    fun doesTeamExistInTeamMemberships(teamId: String): Boolean {
-        return teamMemberRoleData.containsKey(teamId)
-    }
-
     fun getTeamMembers(teamId: String): MutableMap<String, String>? {
         return teamMemberRoleData[teamId]
     }
 
     fun assignRoleToUser(userId: String, roleName: String): Int {
+        validateDataExists()
+        validateRoleExists(roleName)
+        validateUserExists(userId)
         val memberships = teamMemberRoleData.filterValues { it.containsKey(userId) }
         memberships.forEach { (teamId, teamMembers) ->
             teamMembers[userId] = roleName
             teamMemberRoleData[teamId] = teamMembers
         }
         return memberships.size
-    }
-
-    fun doesUserExistInAnyTeam(userId: String): Boolean {
-        val memberships = teamMemberRoleData.filterValues { it.containsKey(userId) }
-        return memberships.isNotEmpty()
-    }
-
-    fun checkDataExistsInTeamMemberships(): Boolean {
-        return teamMemberRoleData.isNotEmpty()
     }
 
     fun getTeamMemberRoleData(): MutableMap<String, MutableMap<String, String>> {
@@ -83,4 +83,32 @@ class TeamRoleService {
         teamMemberRoleData.clear()
         teamMemberRoleData.putAll(data)
     }
+
+    fun validateDataExists() {
+        if (teamMemberRoleData.isEmpty())
+            throw IllegalStateException(Constants.DATA_NOT_FOUND)
+    }
+
+    fun validateRoleExists(roleName: String) {
+        if (!roles.contains(roleName))
+            throw NoSuchElementException(Constants.INVALID_ROLE)
+    }
+
+    fun validateTeamExists(teamId: String) {
+        if (!teamMemberRoleData.containsKey(teamId))
+            throw NoSuchElementException(Constants.TEAM_NOT_FOUND)
+    }
+
+    fun validateUserExists(userId: String) {
+        val memberships = teamMemberRoleData.filterValues { it.containsKey(userId) }
+        if (memberships.isEmpty())
+            throw NoSuchElementException(Constants.USER_NOT_FOUND_ANYWHERE)
+    }
+
+    fun validateUserInTeam(teamId: String, userId: String) {
+        val teamMembers = teamMemberRoleData[teamId]
+        if (teamMembers.isNullOrEmpty() || !teamMembers.containsKey(userId))
+            throw NoSuchElementException(Constants.USER_NOT_FOUND)
+    }
+
 }
