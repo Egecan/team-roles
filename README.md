@@ -29,21 +29,24 @@ Future Plans:
 
 Running the Application
 
---To run via gradle without docker: (for macOS)
-./gradlew clean build
-./gradlew run
+- To run via gradle without docker: (for macOS)  
+./gradlew clean build  
+./gradlew run  
 
 
---To run via docker:
-docker build -t teams .
-docker run -p 8080:8080 teams
+- To run via docker:  
+docker build -t teams .  
+docker run -p 8080:8080 teams  
 
 
---To run via docker-compose:
+- To run via docker-compose:  
 docker-compose up
 
 
---Then you can call the endpoints from http://localhost:8080/team-roles/
+- Then you can call the endpoints from  
+http://localhost:8080/team-roles/
+- or via swagger ui:  
+http://localhost:8080/swagger-ui/index.html#/
 
-To run tests: (for macOS)
+- To run tests only: (for macOS)  
 ./gradlew test
